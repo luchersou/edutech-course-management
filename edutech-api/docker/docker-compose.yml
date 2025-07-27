@@ -1,0 +1,11 @@
+services:
+  mysql:
+    container_name: edutechapi
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: edutechapidb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3306:3306'
