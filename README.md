@@ -86,17 +86,22 @@ O projeto segue os princípios do **Domain-Driven Design (DDD)** com separação
 - Sistema de matrículas
 - Controle de dados acadêmicos
 
-## **Deploy & Containerização**
+## **Containerização**
 
-- **Dockerfile** otimizado para produção
-- **Docker Hub**: `lucher/edutech-api:latest`
-- Configuração para ambientes multi-stage
-- Suporte a variáveis de ambiente
+### Executar localmente
+Para rodar a aplicação localmente, use os seguintes comandos:
 
 ```bash
-# Executar localmente
-docker run -p 8080:8080 lucher/edutech-api:latest
+docker pull lucher/edutech-api:v1.0.2
 ```
+```bash
+docker run -p 8080:8080 lucher/edutech-api:v1.0.2
+```
+Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:8080/h2-console com as seguintes credenciais:
+
+- **JDBC URL:** `jdbc:h2:mem:edutechdb`
+- **User Name:** `sa`
+- **Password:** <i>`(deixe em branco)`</i>
 
 ## **Boas Práticas Implementadas**
 
@@ -221,22 +226,17 @@ docker run -p 8080:8080 lucher/edutech-api:latest
 ### **Executar Localmente**
 ```bash
 git clone https://github.com/luchersou/PROJETO-SpringBoot-EduTechApi.git
-cd PROJETO-SpringBoot-EduTechApi
-./mvnw spring-boot:run
 ```
-
-### **Com Docker**
 ```bash
-docker pull lucher/edutech-api:latest
-docker run -p 8080:8080 lucher/edutech-api:latest
+cd PROJETO-SpringBoot-EduTechApi
+```
+```bash
+./mvnw spring-boot:run
 ```
 
 ### **Acessar**
 - **API**: http://localhost:8080
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
-
-#### Se fez o pull da imagem docker, acesse:
-- **H2 Console**: http://localhost:8080/h2-console
 
 ---
 
