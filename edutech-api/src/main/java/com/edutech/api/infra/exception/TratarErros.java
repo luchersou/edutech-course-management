@@ -1,6 +1,8 @@
 package com.edutech.api.infra.exception;
 
 import com.edutech.api.domain.exception.ValidacaoException;
+import com.edutech.api.infra.dto.DadosErroResposta;
+import com.edutech.api.infra.dto.DadosErroValidacao;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -79,16 +81,6 @@ public class TratarErros {
                 ));
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<DadosErroResposta> tratarErroAcessoNegado() {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new DadosErroResposta(
-                        LocalDateTime.now(),
-                        HttpStatus.FORBIDDEN.value(),
-                        "Acesso negado"
-                ));
-    }
-
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<DadosErroResposta> tratarErroBadCredentials() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -96,16 +88,6 @@ public class TratarErros {
                         LocalDateTime.now(),
                         HttpStatus.UNAUTHORIZED.value(),
                         "Credenciais inválidas"
-                ));
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<DadosErroResposta> tratarErroAuthentication() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new DadosErroResposta(
-                        LocalDateTime.now(),
-                        HttpStatus.UNAUTHORIZED.value(),
-                        "Falha na autenticação"
                 ));
     }
 
@@ -118,25 +100,6 @@ public class TratarErros {
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         "Erro interno no servidor: " + ex.getLocalizedMessage()
                 ));
-    }
-
-
-    private record DadosErroResposta(
-            @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-            LocalDateTime timestamp,
-            int status,
-            String mensagem,
-            List<DadosErroValidacao> erros
-    ) {
-        public DadosErroResposta(LocalDateTime timestamp, int status, String mensagem) {
-            this(timestamp, status, mensagem, null);
-        }
-    }
-
-    private record DadosErroValidacao(String campo, String mensagem) {
-        public DadosErroValidacao(FieldError erro) {
-            this(erro.getField(), erro.getDefaultMessage());
-        }
     }
 
 }

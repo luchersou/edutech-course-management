@@ -1,6 +1,7 @@
 package com.edutech.api.domain.usuario;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +24,9 @@ public class Usuario implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+
+    @Email
+    private String email;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

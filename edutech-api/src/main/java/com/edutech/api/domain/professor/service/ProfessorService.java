@@ -69,7 +69,6 @@ public class ProfessorService {
         return professorMapper.toResumoDTO(professor);
     }
 
-
     public ProfessorResumoDTO buscarPorId(Long id) {
         var professor = buscarProfessorPorId(id);
         return professorMapper.toResumoDTO(professor);

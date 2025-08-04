@@ -35,9 +35,6 @@ public class AlunoService {
 
         var endereco = enderecoMapper.toEndereco(dto.endereco());
 
-        System.out.println("ENDERECO DTO: " + dto.endereco());
-
-
         var aluno = new Aluno(
                 dto.nome(),
                 dto.email(),
