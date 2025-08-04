@@ -221,14 +221,14 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 ### **Pré-requisitos**
 - Java 21+
 - Maven 3.8+
-- Docker (opcional)
+- Docker 
 
 ### **Executar Localmente**
 ```bash
-git clone https://github.com/luchersou/PROJETO-SpringBoot-EduTechApi.git
+git clone https://github.com/luchersou/edutech-course-management.git
 ```
 ```bash
-cd PROJETO-SpringBoot-EduTechApi
+cd edutech-course-management
 ```
 ```bash
 ./mvnw spring-boot:run
