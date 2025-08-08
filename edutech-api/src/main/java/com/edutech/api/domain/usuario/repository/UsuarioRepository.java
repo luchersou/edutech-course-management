@@ -13,9 +13,9 @@ public interface  UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("""
             SELECT u FROM Usuario u 
-            WHERE u.login = :usernameOrEmail 
+            WHERE u.login = :userNameOrEmail 
             OR 
-            u.email = :usernameOrEmail
+            u.email = :userNameOrEmail
             """)
-    Optional<Usuario> findByLoginOrEmail(@Param("usernameOrEmail") String usernameOrEmail);
+    Optional<Usuario> findByLoginOrEmail(@Param("userNameOrEmail") String userNameOrEmail);
 }
