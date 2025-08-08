@@ -10,8 +10,6 @@ public record MatriculaCreateDTO(
         Long alunoId,
 
         @NotNull
-        Long cursoId,
-
         Long turmaId,
 
         @NotNull

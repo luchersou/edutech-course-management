@@ -10,10 +10,7 @@ import com.edutech.api.domain.exception.ValidacaoException;
 import com.edutech.api.domain.professor.Professor;
 import com.edutech.api.domain.professor.repository.ProfessorRepository;
 import com.edutech.api.domain.turma.Turma;
-import com.edutech.api.domain.turma.dto.TurmaCreateDTO;
-import com.edutech.api.domain.turma.dto.TurmaDetalhesDTO;
-import com.edutech.api.domain.turma.dto.TurmaResumoDTO;
-import com.edutech.api.domain.turma.dto.TurmaUpdateDTO;
+import com.edutech.api.domain.turma.dto.*;
 import com.edutech.api.domain.turma.enums.StatusTurma;
 import com.edutech.api.domain.turma.mapper.TurmaMapper;
 import com.edutech.api.domain.turma.repository.TurmaRepository;
@@ -231,6 +228,66 @@ class TurmaServiceTest {
                 () -> assertEquals(1, resultado.getTotalElements()),
                 () -> assertEquals(turmaResumoDTO, resultado.getContent().getFirst())
         );
+    }
+
+    @Test
+    @DisplayName("Deve retornar TurmaComMatriculasDTO quando a turma é encontrada")
+    void buscarTurmaComMatriculasCenario1() {
+        Long TURMA_ID = 1L;
+
+        var turma = new Turma(
+                "TURMA-2024-02", LocalDate.of(2025,5,20),
+                LocalDate.of(2025, 12, 15), LocalTime.of(19, 0),
+                LocalTime.of(20, 30), 20, Modalidade.EAD
+        );
+
+        var turmaComMatriculasDTO = new TurmaComMatriculasDTO(
+                TURMA_ID, "ADS001", StatusTurma.EM_ANDAMENTO, 10L,
+                20L, List.of(100L, 101L)
+        );
+
+        when(turmaRepository.findById(TURMA_ID)).thenReturn(Optional.of(turma));
+        when(turmaMapper.toTurmaComMatriculasDTO(any(Turma.class))).thenReturn(turmaComMatriculasDTO);
+
+        TurmaComMatriculasDTO resultado = turmaService.buscarTurmaComMatriculas(TURMA_ID);
+
+        assertNotNull(resultado);
+        assertEquals(turmaComMatriculasDTO.id(), resultado.id());
+        assertEquals(turmaComMatriculasDTO.codigo(), resultado.codigo());
+        assertEquals(turmaComMatriculasDTO.matriculasIds(), resultado.matriculasIds());
+
+        verify(turmaRepository).findById(TURMA_ID);
+        verify(turmaMapper).toTurmaComMatriculasDTO(turma);
+    }
+
+    @Test
+    @DisplayName("Deve buscar turma com suas matrículas com sucesso")
+    void deveBuscarTurmaComMatriculasComSucesso() {
+        var turma = new Turma(
+                "TURMA-2024-02", LocalDate.of(2025,5,20),
+                LocalDate.of(2025, 12, 15), LocalTime.of(19, 0),
+                LocalTime.of(20, 30), 20, Modalidade.EAD
+        );
+
+        Long turmaId = 1L;
+
+        var turmaComMatriculasDTO = new TurmaComMatriculasDTO(
+                1L,
+                "TURMA-2024-03",
+                StatusTurma.ABERTA,
+                2L,
+                3L,
+                List.of(1L, 2L, 3L)
+        );
+
+        when(turmaRepository.findById(turmaId)).thenReturn(Optional.of(turma));
+        when(turmaMapper.toTurmaComMatriculasDTO(turma)).thenReturn(turmaComMatriculasDTO);
+
+        var result = turmaService.buscarTurmaComMatriculas(turmaId);
+
+        assertEquals(turmaComMatriculasDTO, result);
+        verify(turmaRepository).findById(turmaId);
+        verify(turmaMapper).toTurmaComMatriculasDTO(turma);
     }
 
     @Test

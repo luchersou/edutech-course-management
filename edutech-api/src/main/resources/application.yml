@@ -14,10 +14,11 @@ spring:
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-api:
-  security:
-    token:
-      secret: z9IQYj5NO0Ceovr3E4muAnEqZ0/6u2xk91KR9oTuHgc=
+jwt:
+  public:
+    key: classpath:app.pub
+  private:
+    key: classpath:app.key
 
 logging:
   level:

@@ -39,7 +39,6 @@ public class MatriculaControllerTest {
         var dto = new MatriculaCreateDTO(
                 1L,
                 1L,
-                1L,
                 LocalDate.of(2025, 5, 3)
         );
         var resumoDTO = new MatriculaResumoDTO(
@@ -47,8 +46,6 @@ public class MatriculaControllerTest {
                 LocalDate.of(2025, 5, 3),
                 1L,
                 "João Pedro",
-                1L,
-                "Java para todos",
                 1L,
                 "JAVA-052025",
                 StatusMatricula.ATIVA);
@@ -70,19 +67,16 @@ public class MatriculaControllerTest {
     @Test
     @DisplayName("Deve cadastrar matrícula com data atual e carga horária minima")
     void deveCadastrarMatriculaComDataAtual() {
-        var dto = new MatriculaCreateDTO(1L, 2L, null, LocalDate.now());
+        var dto = new MatriculaCreateDTO(1L, 2L, LocalDate.now());
 
         var resumo = new MatriculaResumoDTO(
                 10L,
-                dto.dataMatricula(),
+                LocalDate.of(2025, 5, 3),
                 1L,
-                "João da Silva",
-                2L,
-                "Java avançado",
-                null,
-                null,
-                StatusMatricula.ATIVA
-        );
+                "João Pedro",
+                1L,
+                "JAVA-052025",
+                StatusMatricula.ATIVA);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString("http://localhost");
         when(matriculaService.cadastrarMatricula(dto)).thenReturn(resumo);
@@ -103,7 +97,6 @@ public class MatriculaControllerTest {
         var dto = new MatriculaCreateDTO(
                 5L,
                 7L,
-                1L,
                 LocalDate.now()
         );
 
@@ -132,8 +125,6 @@ public class MatriculaControllerTest {
                 null,
                 1L,
                 "João Pedro",
-                1L,
-                "Java para todos",
                 3L,
                 "JAVA-052025");
 
@@ -159,8 +150,6 @@ public class MatriculaControllerTest {
                         1L,
                         "João Pedro",
                         1L,
-                        "Java para todos",
-                        1L,
                         "JAVA-052025",
                         StatusMatricula.ATIVA),
 
@@ -169,8 +158,6 @@ public class MatriculaControllerTest {
                         LocalDate.of(2025, 3, 3),
                         2L,
                         "João Vazques",
-                        2L,
-                        "Java para todos",
                         2L,
                         "JAVA-052025",
                         StatusMatricula.ATIVA));
@@ -198,8 +185,6 @@ public class MatriculaControllerTest {
                         1L,
                         "João Pedro",
                         1L,
-                        "Java para todos",
-                        1L,
                         "JAVA-052025",
                         StatusMatricula.ATIVA),
 
@@ -208,8 +193,6 @@ public class MatriculaControllerTest {
                         LocalDate.of(2025, 3, 3),
                         2L,
                         "João Pedro",
-                        2L,
-                        "Java para todos",
                         2L,
                         "JAVA-052025",
                         StatusMatricula.ATIVA));
@@ -238,8 +221,6 @@ public class MatriculaControllerTest {
                 2L,
                 "João Pedro",
                 2L,
-                "Java completo",
-                2L,
                 "JAVA-082025",
                 StatusMatricula.CONCLUIDA);
 
@@ -264,8 +245,6 @@ public class MatriculaControllerTest {
                 4L,
                 "Lucas Souza",
                 3L,
-                "Python completo",
-                2L,
                 "PYTHON-062025",
                 StatusMatricula.ATIVA);
 
@@ -289,8 +268,6 @@ public class MatriculaControllerTest {
                 LocalDate.of(2025, 4, 20),
                 5L,
                 "Lucas Souza",
-                4L,
-                "Curso C#",
                 4L,
                 "C#-062025",
                 StatusMatricula.ATIVA);
@@ -317,8 +294,6 @@ public class MatriculaControllerTest {
                 LocalDate.of(2025, 4, 20),
                 5L,
                 "Lucas Souza",
-                4L,
-                "Curso C#",
                 4L,
                 "C#-062025",
                 StatusMatricula.ATIVA);

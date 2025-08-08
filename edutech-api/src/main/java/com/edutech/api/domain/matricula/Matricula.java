@@ -50,12 +50,12 @@ public class Matricula {
     public Matricula() {
     }
 
-    public Matricula(Aluno aluno, Curso curso, Turma turma, LocalDate dataMatricula) {
+    public Matricula(Aluno aluno, Turma turma, LocalDate dataMatricula) {
         if (aluno == null) {
             throw new ValidacaoException("Aluno é obrigatório para a matricula.");
         }
-        if (curso == null) {
-            throw new ValidacaoException("Curso é obrigatório para a matricula.");
+        if (turma == null) {
+            throw new ValidacaoException("Turma é obrigatório para a matricula.");
         }
         if (dataMatricula == null) {
             throw new ValidacaoException("Data de matricula é obrigatória.");

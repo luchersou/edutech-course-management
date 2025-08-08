@@ -65,7 +65,6 @@ class MatriculaServiceTest {
 
     private Endereco endereco;
     private Aluno aluno;
-    private Curso curso;
     private Turma turma;
     private Matricula matricula;
     private MatriculaResumoDTO resumoDTO;
@@ -83,11 +82,6 @@ class MatriculaServiceTest {
                 endereco
         );
 
-        curso = new Curso(
-                "Desenvolvimento Web Full Stack", "Curso completo de desenvolvimento web com React e Spring Boot",
-                240, 6, NivelCurso.INTERMEDIARIO, CategoriaCurso.PROGRAMACAO
-        );
-
         turma = new Turma(
                 "TURMA-2024-03", LocalDate.of(2024, 3, 1), LocalDate.of(2024, 12, 15),
                 LocalTime.of(8, 0), LocalTime.of(9, 30), 15,
@@ -96,25 +90,32 @@ class MatriculaServiceTest {
 
         resumoDTO = new MatriculaResumoDTO(
                 1L, LocalDate.of(2025,04,20), 1L, "Maria Oliveira",
-                2L, "Desenvolvimento Web Full Stack", 3L, "TURMA-2024-03",
-                StatusMatricula.ATIVA
+                 3L, "TURMA-2024-03", StatusMatricula.ATIVA
         );
 
-        matricula = new Matricula(aluno, curso, turma, LocalDate.of(2025,5,20));
+        matricula = new Matricula(aluno, turma, LocalDate.of(2025,5,20));
     }
 
     @Test
     @DisplayName("Sucesso no cadastro: Deve permitir o registro de uma nova matrícula com todos os dados válidos")
     void deveCadastrarMatriculaComSucesso() {
+        var curso = new Curso(
+                "Desenvolvimento Web Full Stack",
+                "Curso completo de desenvolvimento web com React e Spring Boot",
+                240, 6, NivelCurso.INTERMEDIARIO, CategoriaCurso.PROGRAMACAO
+        );
+
+        turma.vincularCurso(curso);
+
         var matriculaCreateDTO = new MatriculaCreateDTO(
-                1L, 2L, 3L, LocalDate.now()
+                1L, 3L, LocalDate.of(2025, 4, 20)
         );
 
         when(alunoRepository.findById(1L)).thenReturn(Optional.of(aluno));
-        when(cursoRepository.findById(2L)).thenReturn(Optional.of(curso));
         when(turmaRepository.findById(3L)).thenReturn(Optional.of(turma));
-        when(matriculaRepository.save(any(Matricula.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(matriculaMapper.toResumoDTO(any())).thenReturn(resumoDTO);
+        when(matriculaRepository.save(any(Matricula.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+        when(matriculaMapper.toResumoDTO(any(Matricula.class))).thenReturn(resumoDTO);
 
         var result = service.cadastrarMatricula(matriculaCreateDTO);
 
@@ -126,19 +127,25 @@ class MatriculaServiceTest {
                 // Validação do DTO de retorno
                 () -> assertNotNull(result),
                 () -> assertEquals("Maria Oliveira", result.nomeAluno()),
+                () -> assertEquals(1L, result.alunoId()),
+                () -> assertEquals(3L, result.turmaId()),
+                () -> assertEquals(StatusMatricula.ATIVA, result.status()),
 
                 // Validação do objeto capturado
+                () -> assertNotNull(matriculaCapturada),
                 () -> assertEquals(aluno, matriculaCapturada.getAluno()),
-                () -> assertEquals(curso, matriculaCapturada.getCurso()),
                 () -> assertEquals(turma, matriculaCapturada.getTurma()),
                 () -> assertEquals(matriculaCreateDTO.dataMatricula(), matriculaCapturada.getDataMatricula()),
-                () -> assertEquals(StatusMatricula.ATIVA, matriculaCapturada.getStatus(), "A matrícula deve iniciar com status ATIVA")
+                () -> assertEquals(StatusMatricula.ATIVA, matriculaCapturada.getStatus()),
+
+                // Validação específica do curso (que vem através da turma)
+                () -> assertNotNull(matriculaCapturada.getTurma().getCurso()),
+                () -> assertEquals(curso, matriculaCapturada.getTurma().getCurso())
         );
 
-        verify(validadores).forEach(any());
         verify(alunoRepository).findById(1L);
-        verify(cursoRepository).findById(2L);
         verify(turmaRepository).findById(3L);
+        verify(matriculaRepository).save(any(Matricula.class));
         verify(matriculaMapper).toResumoDTO(matriculaCapturada);
     }
 
@@ -148,7 +155,7 @@ class MatriculaServiceTest {
         var detalhesDTO = new MatriculaDetalhesDTO(
                 1L, LocalDate.of(2025, 4, 20), LocalDate.of(2025, 10, 20),
                 null, StatusMatricula.ATIVA, null, 1L,"Maria Oliveira",
-                2L, "Desenvolvimento Web Full Stack",3L,"TURMA-2024-03"
+                3L,"TURMA-2024-03"
         );
 
         when(matriculaRepository.findById(1L)).thenReturn(Optional.of(matricula));
@@ -169,7 +176,6 @@ class MatriculaServiceTest {
                 },
                 () -> {
                     assertEquals("Maria Oliveira", detalhesDTO.nomeAluno());
-                    assertEquals("Desenvolvimento Web Full Stack", detalhesDTO.nomeCurso());
                 }
         );
         verify(matriculaRepository).findById(1L);

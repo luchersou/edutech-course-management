@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Table(name = "usuarios")
+@Table(name = "tb_usuarios")
 @Entity
 @Getter
 @Builder
@@ -40,7 +40,10 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        if (login != null && !login.trim().isEmpty()) {
+            return login;
+        }
+        return email;
     }
 
     @Override

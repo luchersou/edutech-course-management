@@ -17,6 +17,6 @@ public class AutenticacaoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         return usuarioRepository.findByLoginOrEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário \"" + username + "\" não encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário '" + username + "' não encontrado"));
     }
 }

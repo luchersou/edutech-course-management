@@ -18,8 +18,6 @@ public record MatriculaDetalhesDTO(
         MotivoCancelamento motivoCancelamento,
         Long alunoId,
         String nomeAluno,
-        Long cursoId,
-        String nomeCurso,
         Long turmaId,
         String codigoTurma
 ) {}

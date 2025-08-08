@@ -6,10 +6,7 @@ import com.edutech.api.domain.exception.ValidacaoException;
 import com.edutech.api.domain.professor.Professor;
 import com.edutech.api.domain.professor.repository.ProfessorRepository;
 import com.edutech.api.domain.turma.Turma;
-import com.edutech.api.domain.turma.dto.TurmaCreateDTO;
-import com.edutech.api.domain.turma.dto.TurmaDetalhesDTO;
-import com.edutech.api.domain.turma.dto.TurmaResumoDTO;
-import com.edutech.api.domain.turma.dto.TurmaUpdateDTO;
+import com.edutech.api.domain.turma.dto.*;
 import com.edutech.api.domain.turma.mapper.TurmaMapper;
 import com.edutech.api.domain.turma.repository.TurmaRepository;
 import com.edutech.api.domain.turma.validacoes.atualiza_turma.ValidadorAtualizaTurma;
@@ -93,6 +90,11 @@ public class TurmaService {
     public Page<TurmaResumoDTO> buscarTodasTurmas(Pageable pageable){
         Page<Turma> turmas = turmaRepository.findAll(pageable);
         return turmas.map(turmaMapper::toResumoDTO);
+    }
+
+    public TurmaComMatriculasDTO buscarTurmaComMatriculas(Long turmaId) {
+        var turma = buscarTurmaPorId(turmaId);
+        return turmaMapper.toTurmaComMatriculasDTO(turma);
     }
 
     public void iniciarTurma(Long turmaId) {

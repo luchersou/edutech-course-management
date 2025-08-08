@@ -12,8 +12,6 @@ public interface MatriculaMapper {
      */
     @Mapping(target = "alunoId", source = "aluno.id")
     @Mapping(target = "nomeAluno", source = "aluno.nome")
-    @Mapping(target = "cursoId", source = "curso.id")
-    @Mapping(target = "nomeCurso", source = "curso.nome")
     @Mapping(target = "turmaId", source = "turma.id")
     @Mapping(target = "codigoTurma", source = "turma.codigo")
     MatriculaResumoDTO toResumoDTO(Matricula matricula);
@@ -23,8 +21,6 @@ public interface MatriculaMapper {
      */
     @Mapping(target = "alunoId", source = "aluno.id")
     @Mapping(target = "nomeAluno", source = "aluno.nome")
-    @Mapping(target = "cursoId", source = "curso.id")
-    @Mapping(target = "nomeCurso", source = "curso.nome")
     @Mapping(target = "turmaId", source = "turma.id")
     @Mapping(target = "codigoTurma", source = "turma.codigo")
     MatriculaDetalhesDTO toDetalhesDTO(Matricula matricula);

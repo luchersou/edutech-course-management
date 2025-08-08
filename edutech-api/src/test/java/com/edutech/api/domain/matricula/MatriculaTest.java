@@ -29,7 +29,6 @@ class MatriculaTest {
 
     private Endereco endereco;
     private Aluno aluno;
-    private Curso curso;
     private Turma turma;
     private LocalDate dataMatricula;
 
@@ -46,11 +45,6 @@ class MatriculaTest {
                 endereco
         );
 
-        curso = new Curso(
-                "Desenvolvimento Web Full Stack", "Curso completo de desenvolvimento web com React e Spring Boot",
-                240, 6, NivelCurso.INTERMEDIARIO, CategoriaCurso.PROGRAMACAO
-        );
-
         turma = new Turma(
                 "TURMA-2024-03", LocalDate.of(2024, 3, 1), LocalDate.of(2024, 12, 15),
                 LocalTime.of(8, 0), LocalTime.of(9, 30), 15,
@@ -63,11 +57,10 @@ class MatriculaTest {
     @Test
     @DisplayName("Sucesso na criação: Deve permitir o registro de uma nova matrícula com dados válidos")
     void deveCriarMatriculaValida() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         assertEquals(StatusMatricula.ATIVA, matricula.getStatus());
         assertEquals(aluno, matricula.getAluno());
-        assertEquals(curso, matricula.getCurso());
         assertEquals(turma, matricula.getTurma());
         assertEquals(dataMatricula, matricula.getDataMatricula());
         assertNull(matricula.getNotaFinal());
@@ -79,27 +72,20 @@ class MatriculaTest {
     @DisplayName("Falha na operação: Deve lançar erro se o aluno envolvido na operação for nulo")
     void deveLancarErroSeAlunoForNulo() {
         assertThrows(ValidacaoException.class, () ->
-                new Matricula(null, curso, turma, dataMatricula));
-    }
-
-    @Test
-    @DisplayName("Falha na operação: Deve lançar erro se o curso envolvido na operação for nulo")
-    void deveLancarErroSeCursoForNulo() {
-        assertThrows(ValidacaoException.class, () ->
-                new Matricula(aluno, null, turma, dataMatricula));
+                new Matricula(null, turma, dataMatricula));
     }
 
     @Test
     @DisplayName("Falha na criação: Deve lançar erro se a data da matrícula for nula")
     void deveLancarErroSeDataMatriculaForNula() {
         assertThrows(ValidacaoException.class, () ->
-                new Matricula(aluno, curso, turma, null));
+                new Matricula(aluno, turma, null));
     }
 
     @Test
     @DisplayName("Sucesso na conclusão: Deve permitir a conclusão de uma matrícula com o registro de uma nota final válida")
     void deveConcluirMatriculaComNotaValida() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         BigDecimal nota = new BigDecimal("8.0");
 
         matricula.concluir(nota);
@@ -112,7 +98,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha na conclusão: Não deve permitir a conclusão de uma matrícula sem o registro de uma nota final")
     void naoDeveConcluirMatriculaSemNota() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         var ex = assertThrows(ValidacaoException.class, () -> matricula.concluir(null));
         assertEquals("Nota final é obrigatória para conclusão", ex.getMessage());
@@ -121,15 +107,16 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha na conclusão: Não deve permitir a conclusão de uma matrícula sem o registro de uma nota final")
     void naoDeveConcluirMatriculaSeNotaForMenorQue7() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         var ex = assertThrows(ValidacaoException.class, () -> matricula.concluir(new BigDecimal("6.9")));
         assertEquals("Matricula concluida requer nota >= 7", ex.getMessage());
     }
 
     @Test
+    @DisplayName("Deve lançar exceção ao tentar concluir matrícula com status diferente de ATIVA")
     void naoDeveConcluirMatriculaSeStatusNaoForAtiva() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         matricula.trancar();
 
         var ex = assertThrows(ValidacaoException.class, () -> matricula.concluir(new BigDecimal("8.0")));
@@ -139,7 +126,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha na conclusão: Não deve permitir a conclusão de uma matrícula cujo status não seja 'Ativa'")
     void deveCancelarMatriculaComMotivo() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         matricula.cancelar(MotivoCancelamento.DESISTENCIA);
 
         assertEquals(StatusMatricula.CANCELADA, matricula.getStatus());
@@ -149,7 +136,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha no cancelamento: Não deve permitir o cancelamento de uma matrícula que já foi concluída")
     void naoDeveCancelarMatriculaConcluida() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         matricula.concluir(new BigDecimal("8.0"));
 
         var ex = assertThrows(ValidacaoException.class, () ->
@@ -160,7 +147,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha no cancelamento: Não deve permitir o cancelamento de uma matrícula sem um motivo especificado")
     void naoDeveCancelarMatriculaSemMotivo() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         var ex = assertThrows(ValidacaoException.class, () -> matricula.cancelar(null));
         assertEquals("Motivo do cancelamento é obrigatório", ex.getMessage());
@@ -169,7 +156,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Sucesso ao trancar: Deve permitir o trancamento de uma matrícula com status 'Ativa'")
     void deveTrancarMatriculaAtiva() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         matricula.trancar();
 
@@ -179,7 +166,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha ao trancar: Não deve permitir o trancamento de uma matrícula cujo status não seja 'Ativa'")
     void naoDeveTrancarMatriculaNaoAtiva() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         matricula.trancar();
 
         var ex = assertThrows(ValidacaoException.class, matricula::trancar);
@@ -189,7 +176,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Sucesso na reativação: Deve permitir a reativação de uma matrícula que estava 'Trancada'")
     void deveReativarMatriculaTrancada() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         matricula.trancar();
         matricula.reativar();
@@ -200,7 +187,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha na reativação: Não deve permitir a reativação de uma matrícula cujo status não seja 'Trancada'")
     void naoDeveReativarMatriculaNaoTrancada() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
 
         var ex = assertThrows(ValidacaoException.class, matricula::reativar);
         assertEquals("Apenas matrículas trancadas podem ser reativadas", ex.getMessage());
@@ -209,7 +196,7 @@ class MatriculaTest {
     @Test
     @DisplayName("Falha na conclusão: Deve lançar erro se a data de conclusão for anterior à data da matrícula")
     void deveLancarErroSeDataConclusaoForAntesDaMatricula() {
-        var matricula = new Matricula(aluno, curso, turma, dataMatricula);
+        var matricula = new Matricula(aluno, turma, dataMatricula);
         matricula.concluir(new BigDecimal("8.0"));
 
         ReflectionTestUtils.setField(matricula, "dataConclusao", dataMatricula.minusDays(1));

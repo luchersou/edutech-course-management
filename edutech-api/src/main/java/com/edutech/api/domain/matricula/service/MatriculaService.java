@@ -2,8 +2,6 @@ package com.edutech.api.domain.matricula.service;
 
 import com.edutech.api.domain.aluno.Aluno;
 import com.edutech.api.domain.aluno.repository.AlunoRepository;
-import com.edutech.api.domain.curso.Curso;
-import com.edutech.api.domain.curso.repository.CursoRepository;
 import com.edutech.api.domain.exception.ValidacaoException;
 import com.edutech.api.domain.matricula.Matricula;
 import com.edutech.api.domain.matricula.dto.MatriculaCreateDTO;
@@ -33,18 +31,20 @@ public class MatriculaService {
     private final MatriculaMapper matriculaMapper;
     private final AlunoRepository alunoRepository;
     private final TurmaRepository turmaRepository;
-    private final CursoRepository cursoRepository;
     private final List<ValidadorCadastroMatricula> validadoresCadastroMatricula;
 
     @Transactional
     public MatriculaResumoDTO cadastrarMatricula(MatriculaCreateDTO dto){
-        var turma = dto.turmaId() != null ? buscarTurmaPorId(dto.turmaId()) : null;
+        var turma = buscarTurmaPorId(dto.turmaId());
         var aluno = buscarAlunoPorId(dto.alunoId());
-        var curso = buscarCursoPorId(dto.cursoId());
+
+        if(turma.getCurso() == null){
+            throw new ValidacaoException("A turma com ID '" + dto.turmaId() + "' não tem um curso associado. Não é possível realizar a matrícula.");
+        }
 
         validadoresCadastroMatricula.forEach(v -> v.validar(dto));
 
-        var matricula = new Matricula(aluno, curso, turma, dto.dataMatricula());
+        var matricula = new Matricula(aluno, turma, dto.dataMatricula());
 
         matriculaRepository.save(matricula);
         return matriculaMapper.toResumoDTO(matricula);
@@ -121,11 +121,6 @@ public class MatriculaService {
     private Aluno buscarAlunoPorId(Long id) {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new ValidacaoException("Aluno com ID " + id + " não encontrado"));
-    }
-
-    private Curso buscarCursoPorId(Long id) {
-        return cursoRepository.findById(id)
-                .orElseThrow(() -> new ValidacaoException("Curso com ID " + id + " não encontrado"));
     }
 
     private Matricula buscarMatriculaPorId(Long id){

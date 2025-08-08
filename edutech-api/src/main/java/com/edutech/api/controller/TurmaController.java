@@ -1,10 +1,7 @@
 package com.edutech.api.controller;
 
+import com.edutech.api.domain.turma.dto.*;
 import com.edutech.api.domain.turma.service.TurmaService;
-import com.edutech.api.domain.turma.dto.TurmaCreateDTO;
-import com.edutech.api.domain.turma.dto.TurmaDetalhesDTO;
-import com.edutech.api.domain.turma.dto.TurmaResumoDTO;
-import com.edutech.api.domain.turma.dto.TurmaUpdateDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +78,12 @@ public class TurmaController {
     public Page<TurmaResumoDTO> buscarTodasTurmas(
             @PageableDefault(size = 10, sort = "dataInicio", direction = Sort.Direction.ASC) Pageable pageable){
         return turmaService.buscarTodasTurmas(pageable);
+    }
+
+    @GetMapping("/{id}/matriculas")
+    public ResponseEntity<TurmaComMatriculasDTO> buscarTurmaComMatriculas(@PathVariable Long id) {
+        var dto = turmaService.buscarTurmaComMatriculas(id);
+        return ResponseEntity.ok(dto);
     }
 
     @Operation(

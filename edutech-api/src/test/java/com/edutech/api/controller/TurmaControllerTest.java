@@ -2,10 +2,9 @@ package com.edutech.api.controller;
 
 import com.edutech.api.domain.enums.Modalidade;
 import com.edutech.api.domain.exception.ValidacaoException;
-import com.edutech.api.domain.turma.dto.TurmaCreateDTO;
-import com.edutech.api.domain.turma.dto.TurmaDetalhesDTO;
-import com.edutech.api.domain.turma.dto.TurmaResumoDTO;
-import com.edutech.api.domain.turma.dto.TurmaUpdateDTO;
+import com.edutech.api.domain.matricula.dto.MatriculaResumoDTO;
+import com.edutech.api.domain.matricula.enums.StatusMatricula;
+import com.edutech.api.domain.turma.dto.*;
 import com.edutech.api.domain.turma.enums.StatusTurma;
 import com.edutech.api.domain.turma.service.TurmaService;
 import org.junit.jupiter.api.DisplayName;
@@ -355,6 +354,29 @@ class TurmaControllerTest {
                 () -> assertEquals("Turma A", resultado.getContent().getFirst().codigo())
         );
         verify(turmaService).buscarTodasTurmas(pageable);
+    }
+
+    @Test
+    @DisplayName("Deve buscar turma com suas matrículas com sucesso")
+    void deveBuscarTurmaComMatriculasComSucesso() {
+        Long turmaId = 1L;
+
+        var turmaComMatriculasDTO = new TurmaComMatriculasDTO(
+                1L,
+                "TURMA-2024-03",
+                StatusTurma.ABERTA,
+                2L,
+                3L,
+                List.of(1L, 2L, 3L)
+        );
+
+        when(turmaService.buscarTurmaComMatriculas(turmaId)).thenReturn(turmaComMatriculasDTO);
+
+        var result = turmaController.buscarTurmaComMatriculas(turmaId);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(turmaComMatriculasDTO, result.getBody());
+        verify(turmaService).buscarTurmaComMatriculas(turmaId);
     }
 
     @Test

@@ -11,8 +11,6 @@ public record MatriculaResumoDTO(
         LocalDate dataMatricula,
         Long alunoId,
         String nomeAluno,
-        Long cursoId,
-        String nomeCurso,
         Long turmaId,
         String codigoTurma,
         StatusMatricula status
