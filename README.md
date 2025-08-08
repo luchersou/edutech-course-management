@@ -128,7 +128,7 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 
 ### **SOLID Principles**
 - **S**ingle Responsibility Principle
-- **O**pen/Closed Principle
+- **O**pen/Closed Principle  
 - **L**iskov Substitution Principle
 - **I**nterface Segregation Principle
 - **D**ependency Inversion Principle
@@ -221,14 +221,14 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 ### **Pré-requisitos**
 - Java 21+
 - Maven 3.8+
-- Docker
+- Docker (opcional)
 
 ### **Executar Localmente**
 ```bash
-git clone https://github.com/luchersou/edutech-course-management.git
+git clone https://github.com/luchersou/PROJETO-SpringBoot-EduTechApi.git
 ```
 ```bash
-cd edutech-course-management
+cd PROJETO-SpringBoot-EduTechApi
 ```
 ```bash
 ./mvnw spring-boot:run
