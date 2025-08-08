@@ -59,8 +59,6 @@ class MatriculaServiceTest {
     @Mock
     private TurmaRepository turmaRepository;
     @Mock
-    private CursoRepository cursoRepository;
-    @Mock
     private List<ValidadorCadastroMatricula> validadores;
 
     private Endereco endereco;

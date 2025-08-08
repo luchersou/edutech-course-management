@@ -40,10 +40,6 @@ public class Matricula {
     private Aluno aluno;
 
     @ManyToOne
-    @JoinColumn(name = "curso_id")
-    private Curso curso;
-
-    @ManyToOne
     @JoinColumn(name = "turma_id")
     private Turma turma;
 
@@ -62,7 +58,6 @@ public class Matricula {
         }
 
         this.aluno = aluno;
-        this.curso = curso;
         this.turma = turma;
         this.dataMatricula = dataMatricula;
 
