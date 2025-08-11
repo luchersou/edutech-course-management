@@ -27,6 +27,6 @@ public enum StatusMatricula {
                 return statusMatricula;
             }
         }
-        throw new IllegalArgumentException("Categoria de curso invalida: " + value);
+        throw new IllegalArgumentException("Status de matricula invalida: " + value);
     }
 }

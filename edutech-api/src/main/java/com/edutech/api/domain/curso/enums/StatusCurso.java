@@ -25,6 +25,6 @@ public enum StatusCurso {
                 return status;
             }
         }
-        throw new IllegalArgumentException("Status de curso invalida: " + value);
+        throw new IllegalArgumentException("Status de curso invalido: " + value);
     }
 }

@@ -62,7 +62,6 @@ public class Professor {
         this.cpf = cpf;
         this.modalidade = modalidade;
         this.endereco = endereco;
-        this.status = StatusProfessor.ATIVO;
     }
 
     public void atualizar(String nome,
@@ -82,9 +81,9 @@ public class Professor {
     }
 
     public void excluir() {
-        if (this.status == StatusProfessor.AFASTADO || this.status == StatusProfessor.INATIVO) {
+        if (status == StatusProfessor.AFASTADO || status == StatusProfessor.INATIVO) {
             throw new ValidacaoException("Professor afastado ou inativo não pode ser cancelado");
         }
-        this.status = StatusProfessor.INATIVO;
+        status = StatusProfessor.INATIVO;
     }
 }

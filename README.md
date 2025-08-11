@@ -22,6 +22,7 @@ A **EduTechApi** é uma solução completa para gestão educacional que oferece 
 - **JPA (Java Persistence API)** - Especificação de persistência
 - **Hibernate** - Implementação JPA
 - **H2 Database** - Banco em memória para desenvolvimento
+- **PostgreSQL** - Banco de dados relacional para produção
 - **MySQL** - Suporte para produção
 
 ### **Mapeamento & Utilitários**
@@ -85,6 +86,41 @@ O projeto segue os princípios do **Domain-Driven Design (DDD)** com separação
 - Gerenciamento de cursos
 - Sistema de matrículas
 - Controle de dados acadêmicos
+
+## **Deploy**
+
+### Acesso Online
+A aplicação foi implantada na plataforma **Render** utilizando banco de dados **PostgreSQL** e está disponível em: https://edutech-deploy.onrender.com
+
+### Autenticação JWT
+Para acessar os endpoints protegidos, você precisa obter um token JWT fazendo login:
+
+**Endpoint de Login:**
+```
+POST https://edutech-deploy.onrender.com:/login
+```
+
+**JSON para envio:**
+```json
+{
+    "login": "user",
+    "senha": "user123"
+}
+```
+
+**Resposta esperada:**
+```json
+{
+  "token": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ..."
+}
+```
+
+### Como usar o Token
+Após obter o token, inclua-o no header Authorization das suas requisições:
+
+```
+Authorization: Bearer SEU_TOKEN_AQUI
+```
 
 ## **Containerização**
 
@@ -221,14 +257,14 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 ### **Pré-requisitos**
 - Java 21+
 - Maven 3.8+
-- Docker (opcional)
+- Docker 
 
 ### **Executar Localmente**
 ```bash
-git clone https://github.com/luchersou/PROJETO-SpringBoot-EduTechApi.git
+git clone https://github.com/luchersou/edutech-course-management.git
 ```
 ```bash
-cd PROJETO-SpringBoot-EduTechApi
+cd edutech-course-management
 ```
 ```bash
 ./mvnw spring-boot:run

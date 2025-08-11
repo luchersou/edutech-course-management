@@ -61,7 +61,6 @@ public class Matricula {
         this.turma = turma;
         this.dataMatricula = dataMatricula;
 
-        this.status = StatusMatricula.ATIVA;
         this.dataConclusao = null;
         this.notaFinal = null;
         this.motivoCancelamento = null;
@@ -70,49 +69,49 @@ public class Matricula {
     }
 
     public void cancelar(MotivoCancelamento motivo) {
-        if (this.status == StatusMatricula.CONCLUIDA) {
+        if (status == StatusMatricula.CONCLUIDA) {
             throw new ValidacaoException("Matricula concluída não pode ser cancelada");
         }
-        if (this.status == StatusMatricula.CANCELADA) {
+        if (status == StatusMatricula.CANCELADA) {
             throw new ValidacaoException("Matricula já está cancelada");
         }
         if (motivo == null) {
             throw new ValidacaoException("Motivo do cancelamento é obrigatório");
         }
-        this.motivoCancelamento = motivo;
-        this.status = StatusMatricula.CANCELADA;
+        motivoCancelamento = motivo;
+        status = StatusMatricula.CANCELADA;
 
         validar();
     }
 
     public void concluir(BigDecimal nota) {
-        if (this.status != StatusMatricula.ATIVA) {
+        if (status != StatusMatricula.ATIVA) {
             throw new ValidacaoException("Apenas matrículas ativas podem ser concluídas");
         }
         if (nota == null) {
             throw new ValidacaoException("Nota final é obrigatória para conclusão");
         }
-        this.dataConclusao = LocalDate.now();
-        this.notaFinal = nota;
-        this.status = StatusMatricula.CONCLUIDA;
+        dataConclusao = LocalDate.now();
+        notaFinal = nota;
+        status = StatusMatricula.CONCLUIDA;
 
         validar();
     }
 
     public void trancar() {
-        if (this.status != StatusMatricula.ATIVA) {
+        if (status != StatusMatricula.ATIVA) {
             throw new ValidacaoException("Apenas matriculas ativas podem ser trancadas");
         }
-        this.status = StatusMatricula.TRANCADA;
+        status = StatusMatricula.TRANCADA;
 
         validar();
     }
 
     public void reativar() {
-        if (this.status != StatusMatricula.TRANCADA) {
+        if (status != StatusMatricula.TRANCADA) {
             throw new ValidacaoException("Apenas matrículas trancadas podem ser reativadas");
         }
-        this.status = StatusMatricula.ATIVA;
+        status = StatusMatricula.ATIVA;
 
         validar();
     }

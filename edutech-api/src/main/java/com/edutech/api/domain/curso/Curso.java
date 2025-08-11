@@ -85,10 +85,10 @@ public class Curso {
     @PrePersist
     @PreUpdate
     private void validar() {
-        if (this.nivel == null) {
+        if (nivel == null) {
             throw new ValidacaoException("Nivel do curso é obrigatório");
         }
-        if (this.categoria == null) {
+        if (categoria == null) {
             throw new ValidacaoException("Categoria do curso é obrigatória");
         }
         if (duracaoMeses == null || duracaoMeses <= 0) {
@@ -103,16 +103,16 @@ public class Curso {
     }
 
     public void ativar() {
-        if (this.status == StatusCurso.ATIVO) {
+        if (status == StatusCurso.ATIVO) {
             throw new ValidacaoException("Curso já está ativo.");
         }
-        this.status = StatusCurso.ATIVO;
+        status = StatusCurso.ATIVO;
     }
 
     public void inativar() {
-        if (this.status == StatusCurso.INATIVO) {
+        if (status == StatusCurso.INATIVO) {
             throw new ValidacaoException("Curso já está inativo.");
         }
-        this.status = StatusCurso.INATIVO;
+        status = StatusCurso.INATIVO;
     }
 }

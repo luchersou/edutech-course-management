@@ -101,33 +101,33 @@ public class Turma {
     }
 
     public void iniciar() {
-        if (this.status != StatusTurma.ABERTA) {
+        if (status != StatusTurma.ABERTA) {
             throw new ValidacaoException("Só é possível iniciar turmas com status ABERTA.");
         }
         if (LocalDate.now().isBefore(dataInicio)) {
             throw new ValidacaoException("Não é possível iniciar uma turma antes da data de início.");
         }
-        this.status = StatusTurma.EM_ANDAMENTO;
+        status = StatusTurma.EM_ANDAMENTO;
     }
 
     public void concluir() {
-        if (this.status != StatusTurma.EM_ANDAMENTO) {
+        if (status != StatusTurma.EM_ANDAMENTO) {
             throw new ValidacaoException("Só é possível concluir turmas EM_ANDAMENTO.");
         }
         if (LocalDate.now().isBefore(dataFim)) {
             throw new ValidacaoException("Não é possível concluir a turma antes da data fim.");
         }
-        this.status = StatusTurma.CONCLUIDA;
+        status = StatusTurma.CONCLUIDA;
     }
 
     public void cancelar() {
-        if (this.status == StatusTurma.CONCLUIDA) {
+        if (status == StatusTurma.CONCLUIDA) {
             throw new ValidacaoException("Não é possivel cancelar uma turma já concluída.");
         }
-        if (this.status == StatusTurma.CANCELADA) {
+        if (status == StatusTurma.CANCELADA) {
             throw new ValidacaoException("Turma já esta cancelada");
         }
-        this.status = StatusTurma.CANCELADA;
+        status = StatusTurma.CANCELADA;
     }
 
     @PrePersist
@@ -153,7 +153,7 @@ public class Turma {
     }
 
     public void desvincularProfessor() {
-        this.professor = null;
+        professor = null;
     }
 
     public void vincularCurso(Curso curso) {
@@ -161,6 +161,6 @@ public class Turma {
     }
 
     public void desvincularCurso() {
-        this.curso = null;
+        curso = null;
     }
 }

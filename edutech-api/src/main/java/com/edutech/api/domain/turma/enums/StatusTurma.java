@@ -27,6 +27,6 @@ public enum StatusTurma {
                 return statusTurma;
             }
         }
-        throw new IllegalArgumentException("Modalidade de curso inválida: " + value);
+        throw new IllegalArgumentException("Statusda turma inválido: " + value);
     }
 }

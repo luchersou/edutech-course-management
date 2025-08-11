@@ -27,6 +27,6 @@ public enum MotivoCancelamento {
                 return motivoCancelamento;
             }
         }
-        throw new IllegalArgumentException("Categoria de curso invalida: " + value);
+        throw new IllegalArgumentException("Motivo de cancelamento invalido: " + value);
     }
 }

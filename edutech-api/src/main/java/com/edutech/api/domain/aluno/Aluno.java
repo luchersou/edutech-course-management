@@ -57,7 +57,6 @@ public class Aluno {
         this.cpf = cpf;
         this.dataDeNascimento = dataDeNascimento;
         this.endereco = endereco;
-        this.status = StatusAluno.ATIVO;
     }
 
     public void atualizar(String nome,
@@ -75,9 +74,9 @@ public class Aluno {
     }
 
     public void excluir() {
-        if (this.status == StatusAluno.FORMADO || this.status == StatusAluno.CANCELADO || this.status == StatusAluno.INATIVO) {
+        if (status == StatusAluno.FORMADO || status == StatusAluno.CANCELADO || status == StatusAluno.INATIVO) {
             throw new ValidacaoException("Aluno formado ou ja cancelado não pode ser excluido");
         }
-        this.status = StatusAluno.INATIVO;
+        status = StatusAluno.INATIVO;
     }
 }
