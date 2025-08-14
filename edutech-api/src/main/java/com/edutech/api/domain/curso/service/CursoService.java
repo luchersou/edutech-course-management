@@ -128,7 +128,6 @@ public class CursoService {
     /**
      * Vincular/Desvincular e listar professor de curso
      */
-
     @Transactional
     public void vincularProfessor(Long cursoId, Long professorId) {
         var curso = buscarCursoPorId(cursoId);

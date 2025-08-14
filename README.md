@@ -24,6 +24,7 @@ A **EduTechApi** é uma solução completa para gestão educacional que oferece 
 - **H2 Database** - Banco em memória para desenvolvimento
 - **PostgreSQL** - Banco de dados relacional para produção
 - **MySQL** - Suporte para produção
+- **pgAdmin** - Interface gráfica para administração do PostgreSQL
 
 ### **Mapeamento & Utilitários**
 - **MapStruct** - Mapeamento automático entre DTOs e Entities

@@ -1,11 +1,31 @@
 services:
-  mysql:
-    container_name: edutechapi
-    image: mysql:latest
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: always
     environment:
-      MYSQL_DATABASE: edutechapidb
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: 123
-      MYSQL_ROOT_PASSWORD: 123
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: edutechdb
     ports:
-      - '3306:3306'
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:9.4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "15432:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
