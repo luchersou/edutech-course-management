@@ -240,17 +240,17 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 ### Turmas
 | Método | Endpoint                    | Descrição                |
 |--------|-----------------------------|--------------------------|
-| POST    | `http://localhost:8080/turmas` | Cadastra nova turma. |
-| PATCH    | `http://localhost:8080/turmas/{id}` | Atualiza turma. |
-| GET   | `http://localhost:8080/turmas/{id}` | Detalha turma por ID. |
+| POST   | `http://localhost:8080/turmas` | Cadastra nova turma. |
+| PATCH  | `http://localhost:8080/turmas/{id}` | Atualiza turma. |
+| GET    | `http://localhost:8080/turmas/{id}` | Detalha turma por ID. |
 | GET    | `http://localhost:8080/turmas/codigo` | Busca turma por código. |
-| GET | `http://localhost:8080/turmas` | Lista todas as turmas.     |
-| POST | `http://localhost:8080/turmas/{turmaId}/iniciar` | Inicia turma.     |
-| POST | `http://localhost:8080/turmas/{turmaId}/concluir` | Conclui turma.     |
+| GET    | `http://localhost:8080/turmas` | Lista todas as turmas.     |
+| PUT    | `http://localhost:8080/turmas/{turmaId}/iniciar` | Inicia turma.     |
+| PUT     | `http://localhost:8080/turmas/{turmaId}/concluir` | Conclui turma.     |
 | DELETE | `http://localhost:8080/turmas/{id}/cancelamento` | Cancela turma.     |
-| PUT | `http://localhost:8080/turmas/{id}/professor/{professorId}` | Vincula professor a turma.     |
+| PUT    | `http://localhost:8080/turmas/{id}/professor/{professorId}` | Vincula professor a turma.     |
 | DELETE | `http://localhost:8080/turmas/{id}/professor/{professorId}` | Desvincula professor a turma.     |
-| PUT | `http://localhost:8080/turmas/{id}/curso/{cursoId}` | Vincula curso a turma.     |
+| PUT    | `http://localhost:8080/turmas/{id}/curso/{cursoId}` | Vincula curso a turma.     |
 | DELETE | `http://localhost:8080/turmas/{id}/curso/{cursoId}` | Desvincula curso a turma.     |
 
 ##  **Como Executar**

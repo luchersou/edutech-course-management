@@ -90,7 +90,7 @@ public class TurmaController {
             summary = "Iniciar turma",
             description = "Altera o status de uma turma de ABERTA para EM_ANDAMENTO. Só é possível iniciar turmas que estão com status ABERTA e cuja data de início seja hoje ou anterior a data atual."
     )
-    @PostMapping("/{turmaId}/iniciar")
+    @PutMapping("/{turmaId}/iniciar")
     public ResponseEntity<Void> iniciarTurma(@PathVariable Long turmaId) {
         turmaService.iniciarTurma(turmaId);
         return ResponseEntity.ok().build();
@@ -100,7 +100,7 @@ public class TurmaController {
             summary = "Concluir turma",
             description = "Altera o status de uma turma de EM_ANDAMENTO para CONCLUIDA. Só é possível concluir turmas que estão com status EM_ANDAMENTO."
     )
-    @PostMapping("/{turmaId}/concluir")
+    @PutMapping("/{turmaId}/concluir")
     public ResponseEntity<Void> concluirTurma(@PathVariable Long turmaId) {
         turmaService.concluirTurma(turmaId);
         return ResponseEntity.ok().build();
