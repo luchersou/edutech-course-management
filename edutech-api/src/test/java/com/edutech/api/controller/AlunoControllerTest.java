@@ -258,7 +258,8 @@ class AlunoControllerTest {
     @DisplayName("Deve retornar os detalhes completos do aluno por ID")
     void deveRetornarDetalhesDoAlunoPorId() {
         Long id = 1L;
-        AlunoDetalhesDTO detalhesMock = new AlunoDetalhesDTO(id,
+        AlunoDetalhesDTO detalhesMock = new AlunoDetalhesDTO(
+                id,
                 "Lucas",
                 "lucas@email.com",
                 "(41)99960-2502",

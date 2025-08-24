@@ -322,7 +322,8 @@ class CursoControllerTest {
                         "Curso C",
                         StatusCurso.ATIVO,
                         40,
-                        nivel, CategoriaCurso.PROGRAMACAO),
+                        nivel,
+                        CategoriaCurso.PROGRAMACAO),
 
                 new CursoResumoDTO(
                         2L,
@@ -336,10 +337,6 @@ class CursoControllerTest {
         when(cursoService.buscarPorNivel(nivel)).thenReturn(listaMock);
 
         ResponseEntity<List<CursoResumoDTO>> response = cursoController.buscarPorNivel(nivel);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(listaMock, response.getBody());
-        assertNotNull(response.getBody());
 
         assertAll(
                 () -> assertEquals(HttpStatus.OK, response.getStatusCode()),

@@ -4,7 +4,11 @@ Uma **API REST robusta** desenvolvida em **Spring Boot** para gestão de sistema
 
 ## **Sobre o Projeto**
 
-A **EduTechApi** é uma solução completa para gestão educacional que oferece funcionalidades para administração de alunos, cursos, matrículas e dados acadêmicos. O projeto foi desenvolvido com foco em **arquitetura limpa**, **performance** e **escalabilidade**.
+A **EduTechAPI** é uma solução de gestão educacional desenvolvida para administrar alunos, cursos, matrículas, turmas e professores de forma integrada. O projeto adota princípios **Domain-Driven Design (DDD)**, garantindo alta coesão no domínio e baixo acoplamento entre camadas.
+
+Sua estrutura em camadas — apresentação (controllers), domínio (entidades, agregados, value objects) e infraestrutura (segurança, configuração e persistência) — promove clareza, testabilidade e manutenção facilitada.
+
+O sistema foi construído com foco em **escalabilidade**, **segurança** e **boas práticas** de engenharia de software (SOLID, separação de responsabilidades e uso de DTOs), possibilitando evolução contínua e integração com diferentes contextos de negócio.
 
 ##  **Tecnologias Utilizadas**
 

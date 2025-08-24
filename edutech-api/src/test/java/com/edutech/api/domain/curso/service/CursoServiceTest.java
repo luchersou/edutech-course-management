@@ -55,8 +55,8 @@ class CursoServiceTest {
     @DisplayName("Sucesso no cadastro: Deve permitir o registro de um novo curso com dados válidos")
     void deveCadastrarCursoComSucesso() {
         var curso = new Curso(
-                "Java Fundamentals", "Curso java", 40,
-                3, NivelCurso.BASICO, CategoriaCurso.PROGRAMACAO);
+                "Java Fundamentals", "Curso básico de Java", 40,
+                2, NivelCurso.BASICO, CategoriaCurso.PROGRAMACAO);
 
         var cursoResumoDTO = new CursoResumoDTO(
                 1L, "Java Fundamentals", StatusCurso.ATIVO,
@@ -88,7 +88,7 @@ class CursoServiceTest {
                 () -> assertEquals(2, cursoCapturado.getDuracaoMeses()),
                 () -> assertEquals(NivelCurso.BASICO, cursoCapturado.getNivel()),
                 () -> assertEquals(CategoriaCurso.PROGRAMACAO, cursoCapturado.getCategoria()),
-                () -> assertEquals(StatusCurso.ATIVO, cursoCapturado.getStatus(), "O curso deve iniciar com status ATIVO")
+                () -> assertEquals(StatusCurso.ATIVO, cursoCapturado.getStatus())
         );
 
         verify(cursoMapper).toResumoDTO(cursoCapturado);
@@ -101,16 +101,17 @@ class CursoServiceTest {
                 "Java Fundamentals", "Curso java", 40,
                 3, NivelCurso.BASICO, CategoriaCurso.PROGRAMACAO);
 
-        var cursoResumoDTO = new CursoResumoDTO(
-                1L, "Java Fundamentals", StatusCurso.ATIVO,
-                40, NivelCurso.BASICO, CategoriaCurso.PROGRAMACAO);
-
         var cursoUpdateDTO = new CursoUpdateDTO(
                 "Java Advanced", "Curso avançado de Java", 60,
                 3, NivelCurso.AVANCADO, CategoriaCurso.PROGRAMACAO);
 
+        var cursoResumoDTO = new CursoResumoDTO(
+                1L, "Java Advanced", StatusCurso.ATIVO,
+                60, NivelCurso.AVANCADO, CategoriaCurso.PROGRAMACAO);
+
         when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso));
-        when(cursoRepository.save(any(Curso.class))).thenReturn(curso);
+        when(cursoRepository.save(any(Curso.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
         when(cursoMapper.toResumoDTO(any(Curso.class))).thenReturn(cursoResumoDTO);
 
         var resultado = cursoService.atualizarCurso(1L, cursoUpdateDTO);
@@ -119,19 +120,21 @@ class CursoServiceTest {
         verify(cursoRepository).save(cursoCaptor.capture());
         var cursoCapturado = cursoCaptor.getValue();
 
-        assertAll(
+        assertAll("Verificar DTO retornado",
                 () -> assertNotNull(resultado),
                 () -> assertEquals(1L, resultado.id()),
-                () -> assertEquals("Java Fundamentals", resultado.nome()),
+                () -> assertEquals("Java Advanced", resultado.nome()),
+                () -> assertEquals(StatusCurso.ATIVO, resultado.status())
+        );
 
-                // Objeto atualizado antes do save
+        assertAll("Verificar entidade persistida",
                 () -> assertEquals("Java Advanced", cursoCapturado.getNome()),
                 () -> assertEquals("Curso avançado de Java", cursoCapturado.getDescricao()),
                 () -> assertEquals(60, cursoCapturado.getCargaHorariaTotal()),
                 () -> assertEquals(3, cursoCapturado.getDuracaoMeses()),
                 () -> assertEquals(NivelCurso.AVANCADO, cursoCapturado.getNivel()),
                 () -> assertEquals(CategoriaCurso.PROGRAMACAO, cursoCapturado.getCategoria()),
-                () -> assertEquals(StatusCurso.ATIVO, cursoCapturado.getStatus(), "O curso deve permanecer com status ATIVO")
+                () -> assertEquals(StatusCurso.ATIVO, cursoCapturado.getStatus())
         );
 
         verify(cursoRepository).findById(1L);

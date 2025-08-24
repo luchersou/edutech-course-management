@@ -145,7 +145,7 @@ class TurmaServiceTest {
 
         when(turmaRepository.findById(1L)).thenReturn(Optional.of(turma));
         when(turmaRepository.save(any(Turma.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(turmaMapper.toResumoDTO(any())).thenReturn(turmaResumoDTO);
+        when(turmaMapper.toResumoDTO(eq(turma))).thenReturn(turmaResumoDTO);
 
         var resultado = turmaService.atualizarTurma(1L, dto);
 

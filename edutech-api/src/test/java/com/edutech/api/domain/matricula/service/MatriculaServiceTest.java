@@ -121,22 +121,22 @@ class MatriculaServiceTest {
         verify(matriculaRepository).save(matriculaCaptor.capture());
         var matriculaCapturada = matriculaCaptor.getValue();
 
-        assertAll(
-                // Validação do DTO de retorno
+        assertAll( "Verificar DTO retornado",
                 () -> assertNotNull(result),
                 () -> assertEquals("Maria Oliveira", result.nomeAluno()),
                 () -> assertEquals(1L, result.alunoId()),
                 () -> assertEquals(3L, result.turmaId()),
-                () -> assertEquals(StatusMatricula.ATIVA, result.status()),
-
-                // Validação do objeto capturado
+                () -> assertEquals(StatusMatricula.ATIVA, result.status())
+        );
+        assertAll("Validação do objeto capturado",
                 () -> assertNotNull(matriculaCapturada),
                 () -> assertEquals(aluno, matriculaCapturada.getAluno()),
                 () -> assertEquals(turma, matriculaCapturada.getTurma()),
                 () -> assertEquals(matriculaCreateDTO.dataMatricula(), matriculaCapturada.getDataMatricula()),
-                () -> assertEquals(StatusMatricula.ATIVA, matriculaCapturada.getStatus()),
+                () -> assertEquals(StatusMatricula.ATIVA, matriculaCapturada.getStatus())
+        );
 
-                // Validação específica do curso (que vem através da turma)
+        assertAll("Validação específica do curso (que vem através da turma)",
                 () -> assertNotNull(matriculaCapturada.getTurma().getCurso()),
                 () -> assertEquals(curso, matriculaCapturada.getTurma().getCurso())
         );
@@ -162,19 +162,15 @@ class MatriculaServiceTest {
         var result = service.detalharPorId(1L);
 
         assertAll(
-                () -> {
-                    assertNotNull(result);
-                    assertEquals(StatusMatricula.ATIVA, detalhesDTO.status());
-                    assertNull(detalhesDTO.motivoCancelamento());
-                },
-                () -> {
-                    assertEquals(LocalDate.of(2025, 4, 20), detalhesDTO.dataMatricula());
-                    assertEquals(LocalDate.of(2025, 10, 20), detalhesDTO.dataConclusao());
-                    assertNull(detalhesDTO.notaFinal());
-                },
-                () -> {
-                    assertEquals("Maria Oliveira", detalhesDTO.nomeAluno());
-                }
+                () -> assertEquals(StatusMatricula.ATIVA, result.status()),
+                () -> assertNull(result.motivoCancelamento()),
+                () -> assertEquals(LocalDate.of(2025, 4, 20), result.dataMatricula()),
+                () -> assertEquals(LocalDate.of(2025, 10, 20), result.dataConclusao()),
+                () -> assertNull(result.notaFinal()),
+                () -> assertEquals("Maria Oliveira", result.nomeAluno()),
+                () -> assertEquals(1L, result.alunoId()),
+                () -> assertEquals(3L, result.turmaId()),
+                () -> assertEquals("TURMA-2024-03", result.codigoTurma())
         );
         verify(matriculaRepository).findById(1L);
         verify(matriculaMapper).toDetalhesDTO(matricula);

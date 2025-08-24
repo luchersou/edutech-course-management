@@ -1,12 +1,13 @@
 package com.edutech.api.domain.endereco;
 
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Embeddable
+@EqualsAndHashCode
 @Getter
-@Setter
 public class Endereco {
 
     private String logradouro;
@@ -17,7 +18,7 @@ public class Endereco {
     private String cidade;
     private String uf;
 
-    public Endereco() {}
+    protected Endereco (){}
 
     public Endereco(String logradouro,
                     String bairro,
