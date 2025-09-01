@@ -133,10 +133,10 @@ Authorization: Bearer SEU_TOKEN_AQUI
 Para rodar a aplicação localmente, use os seguintes comandos:
 
 ```bash
-docker pull lucher/edutech-api:v1.0.2
+docker pull lucher/edutech-api
 ```
 ```bash
-docker run -p 8080:8080 lucher/edutech-api:v1.0.2
+docker run -p 8080:8080 lucher/edutech-api
 ```
 Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:8080/h2-console com as seguintes credenciais:
 
