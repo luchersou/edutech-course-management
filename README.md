@@ -76,7 +76,7 @@ O projeto segue os princípios do **Domain-Driven Design (DDD)** com separação
 ```
 ## Diagrama do Modelo Físico
 
-![Diagrama do Modelo Físico](\edutech-api\assets\modelo-fisico.png)
+![Diagrama do Modelo Físico](edutech-api/assets/modelo-fisico.png)
 
 ## Deploy
 
