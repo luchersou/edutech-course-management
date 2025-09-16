@@ -15,11 +15,11 @@ public record TurmaUpdateDTO(
         @Size(min = 3, max = 20)
         String codigo,
 
-        @Future(message = "Data de fim deve ser futura")
+        @Future(message = "Data inicio deve ser futura")
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataInicio,
 
-        @Future(message = "Data de fim deve ser futura")
+        @Future(message = "Data fim deve ser futura")
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataFim,
 

@@ -75,13 +75,15 @@ class CursoServiceTest {
         verify(cursoRepository).save(cursoCaptor.capture());
         var cursoCapturado = cursoCaptor.getValue();
 
-        assertAll("Validações do resultado e do curso salvo",
+        assertAll("Validações do resultado retornado",
                 () -> assertNotNull(resultado),
                 () -> assertEquals(1L, resultado.id()),
                 () -> assertEquals("Java Fundamentals", resultado.nome()),
                 () -> assertEquals(NivelCurso.BASICO, resultado.nivel()),
-                () -> assertEquals(CategoriaCurso.PROGRAMACAO, resultado.categoria()),
+                () -> assertEquals(CategoriaCurso.PROGRAMACAO, resultado.categoria())
+        );
 
+        assertAll("Validações do curso salvo no repositório",
                 () -> assertEquals("Java Fundamentals", cursoCapturado.getNome()),
                 () -> assertEquals("Curso básico de Java", cursoCapturado.getDescricao()),
                 () -> assertEquals(40, cursoCapturado.getCargaHorariaTotal()),

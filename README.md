@@ -74,42 +74,47 @@ O projeto segue os princípios do **Domain-Driven Design (DDD)** com separação
     ├── exception/          # Tratamento global de exceções
     └── security/           # Configurações de segurança
 ```
+## Diagrama do Modelo Físico
 
-## **Principais Funcionalidades**
+![Diagrama do Modelo Físico](\edutech-api\assets\modelo-fisico.png)
 
-### ** Autenticação & Segurança**
-- Sistema de login com JWT
-- Tokens com expiração configurável
+## Deploy
 
-### ** Gestão de Usuários**
-- Cadastro e autenticação de usuários
-- Perfis diferenciados (Admin, Professor, Aluno)
-- Criptografia de senhas
+**Acesso Online**
 
-### ** Gestão Acadêmica**
-- CRUD completo de alunos
-- Gerenciamento de cursos
-- Sistema de matrículas
-- Controle de dados acadêmicos
+A aplicação foi implantada na plataforma de nuvem **Render** utilizando banco de dados **H2** (migrado do PostgreSQL para deployment gratuito) através da imagem Docker **lucher/edutech-api-deploy**.
 
-## **Deploy**
+Devido à migração para H2, foi necessário criar endpoints específicos, já que o DataLoader não carrega automaticamente neste ambiente. O restante do código permanece idêntico ao projeto principal:
+- Registro: https://edutech-api-deploy.onrender.com/auth/register
+- Login: https://edutech-api-deploy.onrender.com/auth/login
 
-### Acesso Online
-A aplicação foi implantada na plataforma **Render** utilizando banco de dados **PostgreSQL** e está disponível em: https://edutech-deploy.onrender.com
+A aplicação está disponível em: https://edutech-deploy.onrender.com
 
 ### Autenticação JWT
 Para acessar os endpoints protegidos, você precisa obter um token JWT fazendo login:
 
-**Endpoint de Login:**
+#### 1. Registro de Usuário
 ```
-POST https://edutech-deploy.onrender.com:/login
+POST https://edutech-api-deploy.onrender.com/auth/register
 ```
 
+**Exemplo de JSON:**
+```json
+{
+    "login": "user",
+    "senha": "senha"
+}
+```
+#### 2. Login
+   Após o registro, faça login usando as mesmas credenciais:
+```
+POST https://edutech-api-deploy.onrender.com/auth/login
+```
 **JSON para envio:**
 ```json
 {
     "login": "user",
-    "senha": "user123"
+    "senha": "senha"
 }
 ```
 
@@ -120,7 +125,8 @@ POST https://edutech-deploy.onrender.com:/login
 }
 ```
 
-### Como usar o Token
+#### 3. Usando o Token
+   Inclua o token no header Authorization das suas requisições:
 Após obter o token, inclua-o no header Authorization das suas requisições:
 
 ```
@@ -157,7 +163,6 @@ Após iniciar o contêiner, você pode acessar o H2 Console em http://localhost:
 - **Mapeamento automático** com MapStruct para performance
 - **Testes unitários completos** com JUnit 5 e Mockito
 - **Cobertura de código** monitorada com JaCoCo
-- **Testes de integração** para validação end-to-end
 
 ## **Padrões de Desenvolvimento**
 
