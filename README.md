@@ -85,7 +85,7 @@ O projeto segue os princípios do **Domain-Driven Design (DDD)** com separação
 A aplicação foi implantada na plataforma de nuvem **Render** utilizando banco de dados **H2** (migrado do PostgreSQL para deployment gratuito) através da imagem Docker **lucher/edutech-api-deploy**.
 
 Devido à migração para H2, foi necessário criar endpoints específicos, já que o DataLoader não carrega automaticamente neste ambiente. O restante do código permanece idêntico ao projeto principal:
-- Registro: https://edutech-api-deploy.onrender.com/auth/register
+- Registro: https://edutech-api-deploy.onrender.com/auth/registrar
 - Login: https://edutech-api-deploy.onrender.com/auth/login
 
 A aplicação está disponível em: https://edutech-deploy.onrender.com
