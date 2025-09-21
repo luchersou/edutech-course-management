@@ -95,7 +95,7 @@ Para acessar os endpoints protegidos, você precisa obter um token JWT fazendo l
 
 #### 1. Registro de Usuário
 ```
-POST https://edutech-api-deploy.onrender.com/auth/register
+POST https://edutech-api-deploy.onrender.com/auth/registrar
 ```
 
 **Exemplo de JSON:**
