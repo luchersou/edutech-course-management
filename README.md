@@ -88,7 +88,7 @@ Devido à migração para H2, foi necessário criar endpoints específicos, já 
 - Registro: https://edutech-api-deploy.onrender.com/auth/registrar
 - Login: https://edutech-api-deploy.onrender.com/auth/login
 
-A aplicação está disponível em: https://edutech-deploy.onrender.com
+A aplicação está disponível em: https://edutech-api-deploy.onrender.com
 
 ### Autenticação JWT
 Para acessar os endpoints protegidos, você precisa obter um token JWT fazendo login:
